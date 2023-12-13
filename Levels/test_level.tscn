@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Levels/Test Level/Tiles/test_0.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Test Level/Tiles/test_1.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Levels/Test Level/Tiles/test_5.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Levels/Test Level/Tiles/test_6.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/layer_switcher.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 128, 16 )
@@ -26,6 +27,9 @@ position = Vector2( 272, 688 )
 
 [node name="Test1" parent="Terrain" instance=ExtResource( 2 )]
 position = Vector2( 400, 688 )
+
+[node name="Test36" parent="Terrain" instance=ExtResource( 2 )]
+position = Vector2( 528, 688 )
 
 [node name="Test2" parent="Terrain" instance=ExtResource( 3 )]
 position = Vector2( 144, 720 )
@@ -61,7 +65,8 @@ position = Vector2( 656, 816 )
 position = Vector2( 528, 816 )
 
 [node name="Test32" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 528, 688 )
+position = Vector2( 528, 720 )
+collision_layer = 2
 
 [node name="Test3" parent="Terrain" instance=ExtResource( 4 )]
 position = Vector2( 144, 592 )
@@ -146,13 +151,6 @@ shape = SubResource( 1 )
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 464, 675 )
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 12512
-limit_bottom = 2560
-
 [node name="Layer Switchers" type="Node" parent="."]
 
 [node name="Layer Switcher2" parent="Layer Switchers" instance=ExtResource( 9 )]
@@ -171,3 +169,15 @@ topRight = 1
 bottomLeft = 2
 bottomRight = 1
 groundedOnly = true
+
+[node name="Camera" type="Node2D" parent="."]
+z_index = 4096
+script = ExtResource( 10 )
+maxX = 12512.0
+maxY = 2560.0
+marginL = -8.0
+marginR = 8.0
+marginB = 24.0
+
+[node name="Camera2D" type="Camera2D" parent="Camera"]
+current = true

@@ -396,6 +396,7 @@ func _physics_process(delta : float) -> void:
 				Audio._stop_sample(sfxCharge)
 				Audio._play_sample(sfxRelease)
 				groundSpeed = (8 + floor(spindash / 2)) * direction
+				$"../Camera".lagTimer = 16
 				action = 6
 		6:
 			_play_animation("jump")
