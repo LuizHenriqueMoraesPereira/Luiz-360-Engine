@@ -9,7 +9,7 @@
 [ext_resource path="res://Levels/Test Level/Tiles/test_5.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Levels/Test Level/Tiles/test_6.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Objects/layer_switcher.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Scripts/Camera.gd" type="Script" id=10]
+[ext_resource path="res://Scripts/camera.gd" type="Script" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 128, 16 )
