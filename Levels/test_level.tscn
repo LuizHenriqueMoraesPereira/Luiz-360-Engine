@@ -155,18 +155,10 @@ limit_bottom = 2560
 
 [node name="Layer Switchers" type="Node" parent="."]
 
-[node name="Layer Switcher" parent="Layer Switchers" instance=ExtResource( 9 )]
-position = Vector2( 496, 592 )
-scale = Vector2( 2, 6 )
-topLeft = 1
-topRight = 1
-bottomLeft = 1
-bottomRight = 1
-
 [node name="Layer Switcher2" parent="Layer Switchers" instance=ExtResource( 9 )]
-position = Vector2( 832, 608 )
-scale = Vector2( 3, 7 )
-topLeft = 2
+position = Vector2( 832, 464 )
+scale = Vector2( 3, 16 )
+topLeft = 1
 topRight = 1
 bottomLeft = 2
 bottomRight = 1
