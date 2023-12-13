@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/audio_channel.gd" type="Script" id=1]
+
+[node name="Audio Channel" type="AudioStreamPlayer"]
+volume_db = -10.0
+script = ExtResource( 1 )
+
+[connection signal="finished" from="." to="." method="_on_finished"]

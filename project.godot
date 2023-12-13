@@ -14,6 +14,10 @@ config/name="Luiz 360 Engine"
 run/main_scene="res://Levels/test_level.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Audio="*res://Scripts/audio.gd"
+
 [display]
 
 window/size/width=424
