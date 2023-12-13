@@ -23,6 +23,7 @@ var allowInput : bool = true
 var allowDirection : bool = true
 
 onready var skin : AnimatedSprite = $Sprite
+onready var hitBox : Area2D = $HitBox
 
 export var widthRadius : float
 export var heightRadius : float
@@ -476,7 +477,8 @@ func _physics_process(delta : float) -> void:
 func _render() -> void:
 	global_position.x = xPosition
 	global_position.y = yPosition
-	global_rotation = -visualAngle
+	hitBox.global_rotation_degrees = -groundAngle
+	skin.global_rotation = -visualAngle
 	skin.flip_h = direction < 0
 
 func _sensor(anchor : Vector2, direction : Vector2, extension : float = 0) -> Dictionary:
