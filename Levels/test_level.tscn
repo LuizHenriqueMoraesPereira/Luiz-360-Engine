@@ -19,8 +19,7 @@ extents = Vector2( 128, 16 )
 [node name="Terrain" type="Node" parent="."]
 
 [node name="Test31" parent="Terrain" instance=ExtResource( 8 )]
-position = Vector2( 848, 624 )
-collision_layer = 3
+position = Vector2( 912, 624 )
 
 [node name="Test0" parent="Terrain" instance=ExtResource( 1 )]
 position = Vector2( 272, 688 )
@@ -143,6 +142,7 @@ position = Vector2( 912, 720 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Terrain"]
 collision_layer = 3
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/StaticBody2D"]
 position = Vector2( 656, 480 )
@@ -170,7 +170,7 @@ bottomLeft = 2
 bottomRight = 1
 groundedOnly = true
 
-[node name="Camera" type="Node2D" parent="."]
+[node name="Camera2D" type="Node2D" parent="."]
 z_index = 4096
 script = ExtResource( 10 )
 maxX = 12512.0
@@ -179,5 +179,5 @@ marginL = -8.0
 marginR = 8.0
 marginB = 24.0
 
-[node name="Camera2D" type="Camera2D" parent="Camera"]
+[node name="(Real)Camera2D" type="Camera2D" parent="Camera2D"]
 current = true

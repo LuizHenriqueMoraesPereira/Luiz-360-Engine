@@ -23,7 +23,7 @@ var allowInput : bool = true
 var allowDirection : bool = true
 
 onready var skin : AnimatedSprite = $Sprite
-onready var hitBox : Area2D = $HitBox
+onready var hitBox : Area2D = $CharacterBox
 
 export var widthRadius : float
 export var heightRadius : float
@@ -55,7 +55,7 @@ func _ready() -> void:
 	xPosition = global_position.x
 	yPosition = global_position.y
 	direction = 1
-	layer = 1
+	layer = 17
 	
 	space = get_world_2d().direct_space_state
 
@@ -396,7 +396,7 @@ func _physics_process(delta : float) -> void:
 				Audio._stop_sample(sfxCharge)
 				Audio._play_sample(sfxRelease)
 				groundSpeed = (8 + floor(spindash / 2)) * direction
-				$"../Camera".lagTimer = 16
+				$"../Camera2D".lagTimer = 16
 				action = 6
 		6:
 			_play_animation("jump")
@@ -498,18 +498,10 @@ func _sensor(anchor : Vector2, direction : Vector2, extension : float = 0) -> Di
 	anchor.y += yPosition
 	
 	var result = space.intersect_ray(from, to, [], layer)
-	if result and (result.collider.is_in_group("Solid") or not (result.collider.is_in_group("Solid") or result.collider.is_in_group("Platform")) or result.collider.is_in_group("Platform") and result.collider.global_position.y >= yPosition + (heightRadius - max(4, ySpeed))):
+	if result and (result.collider.collision_layer < 16 or result.collider.is_in_group("Solid") or result.collider.is_in_group("Platform") and result.collider.global_position.y >= yPosition + (heightRadius - max(4, ySpeed))):
 		return { "collision": true, "destination": result.position - anchor, "distance": from.distance_to(result.position), "point": result.position, "normal": result.normal }
 	
 	return { "collision": false, "destination": Vector2.ZERO, "distance": 99999, "point": anchor, "normal": Vector2.ZERO }
-
-func _on_area_entered(area : Area2D) -> void:
-	if "entities" in area:
-		area.entities.append(self)
-
-func _on_area_exited(area : Area2D) -> void:
-	if "entities" in area:
-		area.entities.erase(self)
 
 func _on_animation_finished() -> void:
 	animationFinished = true

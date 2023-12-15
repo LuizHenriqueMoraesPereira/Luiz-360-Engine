@@ -11,11 +11,11 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13, 17 )
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" groups=["Player"]]
 script = ExtResource( 1 )
 widthRadius = 11.0
 heightRadius = 13.0
-wallOffset = 5.0
+wallOffset = 2.0
 sfxJump = ExtResource( 3 )
 sfxSkid = ExtResource( 4 )
 sfxCharge = ExtResource( 6 )
@@ -28,12 +28,12 @@ animation = "idle"
 centered = false
 offset = Vector2( -24, -35 )
 
-[node name="HitBox" type="Area2D" parent="."]
+[node name="CharacterBox" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 0
 
-[node name="Shape" type="CollisionShape2D" parent="HitBox"]
+[node name="Shape" type="CollisionShape2D" parent="CharacterBox"]
 position = Vector2( 0, -4 )
 shape = SubResource( 1 )
 
 [connection signal="animation_finished" from="Sprite" to="." method="_on_animation_finished"]
-[connection signal="area_entered" from="HitBox" to="." method="_on_area_entered"]
-[connection signal="area_exited" from="HitBox" to="." method="_on_area_exited"]

@@ -6,11 +6,14 @@
 extents = Vector2( 64, 8 )
 
 [node name="Test6" type="StaticBody2D" groups=["Platform"]]
+collision_layer = 16
+collision_mask = 0
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -64, 0 )
 texture = ExtResource( 1 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 64, 8 )
+position = Vector2( 0, 8 )
 shape = SubResource( 1 )
