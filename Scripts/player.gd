@@ -51,6 +51,8 @@ export var sfxRoll : AudioStream
 
 var space : Physics2DDirectSpaceState
 
+var colliderFloor : Node2D
+
 func _ready() -> void:
 	xPosition = global_position.x
 	yPosition = global_position.y
@@ -120,6 +122,8 @@ func _physics_process(delta : float) -> void:
 	xPosition += xSpeed * deltaFrame
 	yPosition += ySpeed * deltaFrame
 	
+	colliderFloor = null
+	
 	var steps = 1 + ceil(abs(sqrt((xSpeed * xSpeed) + (ySpeed * ySpeed))))
 	while steps > 0:
 		if (groundSpeed if ground else xSpeed) != 0:
@@ -144,22 +148,28 @@ func _physics_process(delta : float) -> void:
 						if verticalRight.distance < verticalLeft.distance:
 							xPosition += verticalRight.destination.x
 							yPosition += verticalRight.destination.y
+							colliderFloor = verticalRight.collider
 						else:
 							xPosition += verticalLeft.destination.x
 							yPosition += verticalLeft.destination.y
+							colliderFloor = verticalLeft.collider
 					else:
 						xPosition += verticalCenter.destination.x
 						yPosition += verticalCenter.destination.y
+						colliderFloor = verticalCenter.collider
 				else:
 					xPosition += verticalCenter.destination.x
 					yPosition += verticalCenter.destination.y
+					colliderFloor = verticalCenter.collider
 			elif verticalLeft.collision or verticalRight.collision:
 				if verticalRight.distance < verticalLeft.distance:
 					xPosition += verticalRight.destination.x
 					yPosition += verticalRight.destination.y
+					colliderFloor = verticalRight.collider
 				else:
 					xPosition += verticalLeft.destination.x
 					yPosition += verticalLeft.destination.y
+					colliderFloor = verticalLeft.collider
 			
 			if not ground and (verticalCenter.collision or verticalLeft.collision or verticalRight.collision):
 				var normal = Vector2.ZERO
@@ -499,9 +509,9 @@ func _sensor(anchor : Vector2, direction : Vector2, extension : float = 0) -> Di
 	
 	var result = space.intersect_ray(from, to, [], layer)
 	if result and (result.collider.collision_layer < 16 or result.collider.is_in_group("Solid") or result.collider.is_in_group("Platform") and result.collider.global_position.y >= yPosition + (heightRadius - max(4, ySpeed))):
-		return { "collision": true, "destination": result.position - anchor, "distance": from.distance_to(result.position), "point": result.position, "normal": result.normal }
+		return { "collision": true, "destination": result.position - anchor, "distance": from.distance_to(result.position), "point": result.position, "normal": result.normal, "collider": result.collider }
 	
-	return { "collision": false, "destination": Vector2.ZERO, "distance": 99999, "point": anchor, "normal": Vector2.ZERO }
+	return { "collision": false, "destination": Vector2.ZERO, "distance": 99999, "point": anchor, "normal": Vector2.ZERO, "collider": null }
 
 func _on_animation_finished() -> void:
 	animationFinished = true
