@@ -12,13 +12,14 @@ var xAngle : float
 var yAngle : float
 export var xDistance : float
 export var yDistance : float
+var sinkAmount : float
 
 var player : Node2D
 var camera : Node2D
 
 func _ready() -> void:
-	player = $"../../Player"
-	camera = $"../../Camera2D"
+	player = $"../Player"
+	camera = $"../Camera2D"
 	
 	xPosition = global_position.x
 	yPosition = global_position.y
@@ -35,15 +36,20 @@ func _physics_process(delta : float) -> void:
 	yAngle = fmod(yAngle, 360)
 	
 	xPosition = xStart + (cos(deg2rad(xAngle)) * xDistance)
-	yPosition = yStart + (sin(deg2rad(yAngle)) * yDistance)
+	yPosition = yStart + ((sin(deg2rad(yAngle)) * yDistance) + floor(sin(deg2rad(sinkAmount)) * 10))
 	
 	xPrevious = global_position.x
 	yPrevious = global_position.y
 	global_position.x = xPosition
 	global_position.y = yPosition
 	
+	if sinkAmount > 0:
+		sinkAmount = max(0, sinkAmount - (6 * deltaFrame))
+	
 	if player != null and camera != null:
 		if player.ground and player.colliderFloor == self:
+			sinkAmount = min(90, sinkAmount + (9 * deltaFrame))
+			
 			player.xPosition += xPosition - xPrevious
 			player.yPosition += yPosition - yPrevious
 			player.global_position.x = player.xPosition

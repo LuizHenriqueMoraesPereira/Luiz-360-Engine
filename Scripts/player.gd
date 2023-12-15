@@ -23,7 +23,7 @@ var allowInput : bool = true
 var allowDirection : bool = true
 
 onready var skin : AnimatedSprite = $Sprite
-onready var hitBox : Area2D = $CharacterBox
+onready var hitBox := $CharacterBox
 
 export var widthRadius : float
 export var heightRadius : float
@@ -52,6 +52,8 @@ export var sfxRoll : AudioStream
 var space : Physics2DDirectSpaceState
 
 var colliderFloor : Node2D
+var colliderCeiling : Node2D
+var colliderWall : Node2D
 
 func _ready() -> void:
 	xPosition = global_position.x
@@ -123,6 +125,8 @@ func _physics_process(delta : float) -> void:
 	yPosition += ySpeed * deltaFrame
 	
 	colliderFloor = null
+	colliderCeiling = null
+	colliderWall = null
 	
 	var steps = 1 + ceil(abs(sqrt((xSpeed * xSpeed) + (ySpeed * ySpeed))))
 	while steps > 0:
@@ -132,6 +136,7 @@ func _physics_process(delta : float) -> void:
 			var sensor = _sensor(Vector2(widthRadius * dir, offset), Vector2.RIGHT * dir)
 			
 			if sensor.collision:
+				colliderWall = sensor.collider
 				xPosition += sensor.destination.x
 				yPosition += sensor.destination.y
 				if ground: groundSpeed = 0
@@ -141,35 +146,42 @@ func _physics_process(delta : float) -> void:
 			var verticalLeft = _sensor(Vector2(-widthRadius + 2, heightRadius if ground else heightRadius * sign(ySpeed)), Vector2.DOWN if ground else Vector2.DOWN * sign(ySpeed), 16 if ground else 0)
 			var verticalRight = _sensor(Vector2(widthRadius - 2, heightRadius if ground else heightRadius * sign(ySpeed)), Vector2.DOWN if ground else Vector2.DOWN * sign(ySpeed), 16 if ground else 0)
 			var verticalCenter = _sensor(Vector2(0, heightRadius if ground else heightRadius * sign(ySpeed)), Vector2.DOWN if ground else Vector2.DOWN * sign(ySpeed), 16 if ground else 0)
+			var colliderVertical : Node2D = null
 			
 			if verticalCenter.collision:
 				if verticalLeft.collision or verticalRight.collision:
 					if verticalCenter.distance > min(verticalLeft.distance, verticalRight.distance):
 						if verticalRight.distance < verticalLeft.distance:
+							colliderVertical = verticalRight.collider
 							xPosition += verticalRight.destination.x
 							yPosition += verticalRight.destination.y
-							colliderFloor = verticalRight.collider
 						else:
+							colliderVertical = verticalLeft.collider
 							xPosition += verticalLeft.destination.x
 							yPosition += verticalLeft.destination.y
-							colliderFloor = verticalLeft.collider
 					else:
+						colliderVertical = verticalCenter.collider
 						xPosition += verticalCenter.destination.x
 						yPosition += verticalCenter.destination.y
-						colliderFloor = verticalCenter.collider
 				else:
+					colliderVertical = verticalCenter.collider
 					xPosition += verticalCenter.destination.x
 					yPosition += verticalCenter.destination.y
-					colliderFloor = verticalCenter.collider
 			elif verticalLeft.collision or verticalRight.collision:
 				if verticalRight.distance < verticalLeft.distance:
+					colliderVertical = verticalRight.collider
 					xPosition += verticalRight.destination.x
 					yPosition += verticalRight.destination.y
-					colliderFloor = verticalRight.collider
 				else:
+					colliderVertical = verticalLeft.collider
 					xPosition += verticalLeft.destination.x
 					yPosition += verticalLeft.destination.y
-					colliderFloor = verticalLeft.collider
+			
+			if colliderVertical != null:
+				if ySpeed < 0 and not ground:
+					colliderCeiling = colliderVertical
+				else:
+					colliderFloor = colliderVertical
 			
 			if not ground and (verticalCenter.collision or verticalLeft.collision or verticalRight.collision):
 				var normal = Vector2.ZERO
