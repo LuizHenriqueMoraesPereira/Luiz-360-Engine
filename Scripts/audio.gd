@@ -22,4 +22,12 @@ func _stop_sample(sample : AudioStream) -> void:
 		if channel.stream == sample:
 			channel.stop()
 			channel.stream = null
+			channel.pitch_scale = 1
+			break
+
+func _set_sample_pitch(sample : AudioStream, scale : float) -> void:
+	for i in get_child_count():
+		var channel = get_child(i)
+		if channel.stream == sample:
+			channel.pitch_scale = scale
 			break

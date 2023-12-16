@@ -1,33 +1,20 @@
-extends Node2D
-
-var xPosition : float
-var yPosition : float
-var xSpeed : float
-var ySpeed : float
-var ground : bool
-var groundSpeed : float
-var groundAngle : float
-var visualAngle : float
-var controlLock : float
-var jumpVariable : bool
-var direction : int
-var skidding : float
-var spindash : float
-var action : int
-var layer : int
-
-var animation : String
-var animationFinished : bool
+class_name Player extends Entity
 
 var allowInput : bool = true
 var allowDirection : bool = true
+var animation : String = "none"
+var animationFinished : bool = false
 
-onready var skin : AnimatedSprite = $Sprite
+var camera : CameraController
+var controlLock : float
+var direction : int
+var action : int
+var jumpVariable : bool
+var skidding : float
+var spindash : float
+
+onready var skin := $Sprite
 onready var hitBox := $CharacterBox
-
-export var widthRadius : float
-export var heightRadius : float
-export var wallOffset : float
 
 export var acceleration : float = 0.046875
 export var airAcceleration : float = 0.09375
@@ -49,27 +36,20 @@ export var sfxCharge : AudioStream
 export var sfxRelease : AudioStream
 export var sfxRoll : AudioStream
 
-var space : Physics2DDirectSpaceState
-
-var colliderFloor : Node2D
-var colliderCeiling : Node2D
-var colliderWall : Node2D
-
 func _ready() -> void:
-	xPosition = global_position.x
-	yPosition = global_position.y
-	direction = 1
-	layer = 17
+	camera = Global._find_node("CameraController")
 	
-	space = get_world_2d().direct_space_state
+	._ready()
+	
+	direction = 1
 
 func _physics_process(delta : float) -> void:
-	var deltaFrame : float = 60 * delta
-	var inputHorizontal : int = (1 if Input.is_action_pressed("Right") else 0) - (1 if Input.is_action_pressed("Left") else 0)
-	var inputVertical : int = (1 if Input.is_action_pressed("Down") else 0) - (1 if Input.is_action_pressed("Up") else 0)
+	var deltaTime = 60 * delta
+	var inputHorizontal = (1 if Input.is_action_pressed("Right") else 0) - (1 if Input.is_action_pressed("Left") else 0)
+	var inputVertical = (1 if Input.is_action_pressed("Down") else 0) - (1 if Input.is_action_pressed("Up") else 0)
 	
 	if allowInput and ground and action != 6:
-		groundSpeed -= slopeFactor * sin(deg2rad(groundAngle)) * deltaFrame
+		groundSpeed -= slopeFactor * sin(deg2rad(groundAngle)) * deltaTime
 	
 	if inputHorizontal < 0:
 		if allowDirection: direction = -1
@@ -77,16 +57,16 @@ func _physics_process(delta : float) -> void:
 		if allowInput:
 			if ground and controlLock <= 0:
 				if groundSpeed > 0:
-					groundSpeed -= deceleration * deltaFrame
+					groundSpeed -= deceleration * deltaTime
 					if groundSpeed <= 0:
 						groundSpeed = -deceleration
 				elif groundSpeed > -topSpeed:
-					groundSpeed -= acceleration * deltaFrame
+					groundSpeed -= acceleration * deltaTime
 					if groundSpeed <= -topSpeed:
 						groundSpeed = -topSpeed
 			elif not ground:
 				if xSpeed > -topSpeed:
-					xSpeed -= airAcceleration * deltaFrame
+					xSpeed -= airAcceleration * deltaTime
 					if xSpeed <= -topSpeed:
 						xSpeed = -topSpeed
 	
@@ -96,149 +76,28 @@ func _physics_process(delta : float) -> void:
 		if allowInput:
 			if ground and controlLock <= 0:
 				if groundSpeed < 0:
-					groundSpeed += deceleration * deltaFrame
+					groundSpeed += deceleration * deltaTime
 					if groundSpeed >= 0:
 						groundSpeed = deceleration
 				elif groundSpeed < topSpeed:
-					groundSpeed += acceleration * deltaFrame
+					groundSpeed += acceleration * deltaTime
 					if groundSpeed >= topSpeed:
 						groundSpeed = topSpeed
 			elif not ground:
 				if xSpeed < topSpeed:
-					xSpeed += airAcceleration * deltaFrame
+					xSpeed += airAcceleration * deltaTime
 					if xSpeed >= topSpeed:
 						xSpeed = topSpeed
 	
 	if allowInput and ground and controlLock <= 0 and inputHorizontal == 0:
-		groundSpeed -= min(abs(groundSpeed), friction) * sign(groundSpeed) * deltaFrame
+		groundSpeed -= min(abs(groundSpeed), friction) * sign(groundSpeed) * deltaTime
 		if abs(groundSpeed) < friction:
 			groundSpeed = 0
 	
 	if not ground and ySpeed < 0 and ySpeed > -4:
-		xSpeed -= ((floor(abs(xSpeed / 0.125)) * sign(xSpeed)) / 256) * deltaFrame
+		xSpeed -= ((floor(abs(xSpeed / 0.125)) * sign(xSpeed)) / 256) * deltaTime
 	
-	if ground:
-		xSpeed = groundSpeed * cos(deg2rad(groundAngle))
-		ySpeed = groundSpeed * -sin(deg2rad(groundAngle))
-	
-	xPosition += xSpeed * deltaFrame
-	yPosition += ySpeed * deltaFrame
-	
-	colliderFloor = null
-	colliderCeiling = null
-	colliderWall = null
-	
-	var steps = 1 + ceil(abs(sqrt((xSpeed * xSpeed) + (ySpeed * ySpeed))))
-	while steps > 0:
-		if (groundSpeed if ground else xSpeed) != 0:
-			var dir = sign(groundSpeed if ground else xSpeed)
-			var offset = wallOffset * (1 if (ground and fmod(round(groundAngle / 4), 90) == 0) else 0)
-			var sensor = _sensor(Vector2(widthRadius * dir, offset), Vector2.RIGHT * dir)
-			
-			if sensor.collision:
-				colliderWall = sensor.collider
-				xPosition += sensor.destination.x
-				yPosition += sensor.destination.y
-				if ground: groundSpeed = 0
-				else: xSpeed = 0
-		
-		if not ground and sign(ySpeed) != 0 or ground:
-			var verticalLeft = _sensor(Vector2(-widthRadius + 2, heightRadius if ground else heightRadius * sign(ySpeed)), Vector2.DOWN if ground else Vector2.DOWN * sign(ySpeed), 16 if ground else 0)
-			var verticalRight = _sensor(Vector2(widthRadius - 2, heightRadius if ground else heightRadius * sign(ySpeed)), Vector2.DOWN if ground else Vector2.DOWN * sign(ySpeed), 16 if ground else 0)
-			var verticalCenter = _sensor(Vector2(0, heightRadius if ground else heightRadius * sign(ySpeed)), Vector2.DOWN if ground else Vector2.DOWN * sign(ySpeed), 16 if ground else 0)
-			var colliderVertical : Node2D = null
-			
-			if verticalCenter.collision:
-				if verticalLeft.collision or verticalRight.collision:
-					if verticalCenter.distance > min(verticalLeft.distance, verticalRight.distance):
-						if verticalRight.distance < verticalLeft.distance:
-							colliderVertical = verticalRight.collider
-							xPosition += verticalRight.destination.x
-							yPosition += verticalRight.destination.y
-						else:
-							colliderVertical = verticalLeft.collider
-							xPosition += verticalLeft.destination.x
-							yPosition += verticalLeft.destination.y
-					else:
-						colliderVertical = verticalCenter.collider
-						xPosition += verticalCenter.destination.x
-						yPosition += verticalCenter.destination.y
-				else:
-					colliderVertical = verticalCenter.collider
-					xPosition += verticalCenter.destination.x
-					yPosition += verticalCenter.destination.y
-			elif verticalLeft.collision or verticalRight.collision:
-				if verticalRight.distance < verticalLeft.distance:
-					colliderVertical = verticalRight.collider
-					xPosition += verticalRight.destination.x
-					yPosition += verticalRight.destination.y
-				else:
-					colliderVertical = verticalLeft.collider
-					xPosition += verticalLeft.destination.x
-					yPosition += verticalLeft.destination.y
-			
-			if colliderVertical != null:
-				if ySpeed < 0 and not ground:
-					colliderCeiling = colliderVertical
-				else:
-					colliderFloor = colliderVertical
-			
-			if not ground and (verticalCenter.collision or verticalLeft.collision or verticalRight.collision):
-				var normal = Vector2.ZERO
-				
-				if verticalCenter.distance > min(verticalLeft.distance, verticalRight.distance):
-					if verticalRight.distance < verticalLeft.distance:
-						normal = verticalRight.normal
-					else:
-						normal = verticalLeft.normal
-				else:
-					normal = verticalCenter.normal
-				
-				if ySpeed >= 0:
-					groundAngle = fmod(720 - rad2deg(atan2(normal.x, -normal.y)), 360)
-					groundSpeed = xSpeed
-					if abs(xSpeed) <= abs(ySpeed):
-						if groundAngle >= 22.5 and groundAngle < 45 or groundAngle > 315 and groundAngle <= 337.5:
-							groundSpeed = ySpeed * 0.5 * -sign(sin(deg2rad(groundAngle)))
-						elif groundAngle >= 45 and groundAngle <= 315:
-							groundSpeed = ySpeed * -sign(sin(deg2rad(groundAngle)))
-					ground = true
-				else:
-					if ySpeed < -1 and normal.y < 0.75:
-						groundAngle = fmod(720 - rad2deg(atan2(normal.x, -normal.y)), 360)
-						groundSpeed = ySpeed * 0.84 * -sign(sin(deg2rad(groundAngle)))
-						ground = true
-					
-					ySpeed = 0
-			
-			if ground and not (verticalCenter.collision or verticalLeft.collision or verticalRight.collision):
-				xSpeed = groundSpeed * cos(deg2rad(groundAngle))
-				ySpeed = groundSpeed * -sin(deg2rad(groundAngle))
-				groundAngle = 0
-				ground = false
-		
-		if ground:
-			var angleLeft = _sensor(Vector2(-widthRadius + 2, heightRadius), Vector2.DOWN, 16)
-			var angleRight = _sensor(Vector2(widthRadius - 2, heightRadius), Vector2.DOWN, 16)
-			
-			if angleLeft.collision or angleRight.collision:
-				var nx = 0
-				var ny = -1
-				
-				if angleRight.distance < angleLeft.distance:
-					nx = angleRight.normal.x
-					ny = angleRight.normal.y
-				else:
-					nx = angleLeft.normal.x
-					ny = angleLeft.normal.y
-				
-				if angleLeft.collision and angleRight.collision:
-					ny = -(angleRight.point.x - angleLeft.point.x)
-					nx = angleRight.point.y - angleLeft.point.y
-				
-				groundAngle = fmod(720 - rad2deg(atan2(nx, -ny)), 360)
-		
-		steps -= 1
+	_movement_process(deltaTime)
 	
 	if ground:
 		if abs(fmod(0 - groundAngle + 540, 360) - 180) >= 40:
@@ -249,20 +108,25 @@ func _physics_process(delta : float) -> void:
 		visualAngle = deg2rad(fmod(720 + rad2deg(visualAngle), 360))
 	else:
 		if rad2deg(visualAngle) < 180:
-			visualAngle = deg2rad(max(rad2deg(visualAngle) - (4 * deltaFrame), 0))
+			visualAngle = deg2rad(max(rad2deg(visualAngle) - (4 * deltaTime), 0))
 		else:
-			visualAngle = deg2rad(min(rad2deg(visualAngle) + (4 * deltaFrame), 360))
+			visualAngle = deg2rad(min(rad2deg(visualAngle) + (4 * deltaTime), 360))
 	
 	if animation == "jump":
 		visualAngle = 0
 	
-	if xPosition <= 16 and xSpeed < 0:
-		xPosition = 16
+	if xPosition <= camera.minX + 16 and xSpeed < 0:
+		xPosition = camera.minX + 16
 		if ground: groundSpeed = max(0, groundSpeed)
 		else: xSpeed = max(0, xSpeed)
 	
+	if xPosition >= camera.maxX - 16 and xSpeed > 0:
+		xPosition = camera.maxX - 16
+		if ground: groundSpeed = min(0, groundSpeed)
+		else: xSpeed = min(0, xSpeed)
+	
 	if not ground:
-		ySpeed += gravityForce * deltaFrame
+		ySpeed += gravityForce * deltaTime
 		if ySpeed > 16:
 			ySpeed = 16
 	
@@ -373,7 +237,7 @@ func _physics_process(delta : float) -> void:
 			skin.speed_scale = 1
 			
 			if skidding > 0:
-				skidding -= deltaFrame
+				skidding -= deltaTime
 			elif inputHorizontal <= 0 and groundSpeed < 0 or inputHorizontal >= 0 and groundSpeed > 0:
 				allowDirection = true
 				action = 0
@@ -406,19 +270,20 @@ func _physics_process(delta : float) -> void:
 		5:
 			_play_animation("spindash")
 			skin.speed_scale = 1 + (spindash / 8)
-			spindash -= (floor(spindash / 0.125) / 512) * deltaFrame
+			spindash -= (floor(spindash / 0.125) / 512) * deltaTime
 			
 			if Input.is_action_just_pressed("Jump"):
 				skin.frame = 0
 				Audio._stop_sample(sfxCharge)
 				Audio._play_sample(sfxCharge)
 				spindash += 2
+				Audio._set_sample_pitch(sfxCharge, 1 + (spindash * 0.03))
 			
 			if inputVertical <= 0:
 				Audio._stop_sample(sfxCharge)
 				Audio._play_sample(sfxRelease)
 				groundSpeed = (8 + floor(spindash / 2)) * direction
-				$"../Camera2D".lagTimer = 16
+				camera.lagTimer = 16
 				action = 6
 		6:
 			_play_animation("jump")
@@ -426,30 +291,30 @@ func _physics_process(delta : float) -> void:
 			
 			if inputHorizontal < 0:
 				if groundSpeed > 0:
-					groundSpeed -= rollDeceleration * deltaFrame
+					groundSpeed -= rollDeceleration * deltaTime
 					if groundSpeed <= 0:
 						groundSpeed = -rollDeceleration
 				else:
-					groundSpeed -= min(abs(groundSpeed), rollFriction) * sign(groundSpeed) * deltaFrame
+					groundSpeed -= min(abs(groundSpeed), rollFriction) * sign(groundSpeed) * deltaTime
 			
 			if inputHorizontal > 0:
 				if groundSpeed < 0:
-					groundSpeed += rollDeceleration * deltaFrame
+					groundSpeed += rollDeceleration * deltaTime
 					if groundSpeed >= 0:
 						groundSpeed = rollDeceleration
 				else:
-					groundSpeed -= min(abs(groundSpeed), rollFriction) * sign(groundSpeed) * deltaFrame
+					groundSpeed -= min(abs(groundSpeed), rollFriction) * sign(groundSpeed) * deltaTime
 			
 			if inputHorizontal == 0:
-				groundSpeed -= min(abs(groundSpeed), rollFriction) * sign(groundSpeed) * deltaFrame
+				groundSpeed -= min(abs(groundSpeed), rollFriction) * sign(groundSpeed) * deltaTime
 				if abs(groundSpeed) < rollFriction:
 					groundSpeed = 0
 			
 			if ground:
 				if sign(groundSpeed) == sign(sin(deg2rad(groundAngle))):
-					groundSpeed -= slopeRollUpFactor * sin(deg2rad(groundAngle)) * deltaFrame
+					groundSpeed -= slopeRollUpFactor * sin(deg2rad(groundAngle)) * deltaTime
 				else:
-					groundSpeed -= slopeRollDownFactor * sin(deg2rad(groundAngle)) * deltaFrame
+					groundSpeed -= slopeRollDownFactor * sin(deg2rad(groundAngle)) * deltaTime
 			else:
 				allowDirection = true
 				allowInput = true
@@ -490,7 +355,7 @@ func _physics_process(delta : float) -> void:
 					else:
 						groundSpeed += deceleration
 		else:
-			controlLock -= deltaFrame
+			controlLock -= deltaTime
 	
 	if skin.animation != animation:
 		skin.play(animation)
@@ -503,27 +368,6 @@ func _render() -> void:
 	hitBox.global_rotation_degrees = -groundAngle
 	skin.global_rotation = -visualAngle
 	skin.flip_h = direction < 0
-
-func _sensor(anchor : Vector2, direction : Vector2, extension : float = 0) -> Dictionary:
-	var absDir = Vector2(abs(direction.x), abs(direction.y))
-	
-	var from : Vector2 = (anchor * (Vector2.ONE - absDir)).rotated(deg2rad(-groundAngle))
-	from.x += xPosition
-	from.y += yPosition
-	
-	var to : Vector2 = (anchor + (direction * extension)).rotated(deg2rad(-groundAngle))
-	to.x += xPosition
-	to.y += yPosition
-	
-	anchor = anchor.rotated(deg2rad(-groundAngle))
-	anchor.x += xPosition
-	anchor.y += yPosition
-	
-	var result = space.intersect_ray(from, to, [], layer)
-	if result and (result.collider.collision_layer < 16 or result.collider.is_in_group("Solid") or result.collider.is_in_group("Platform") and result.collider.global_position.y >= yPosition + (heightRadius - max(4, ySpeed))):
-		return { "collision": true, "destination": result.position - anchor, "distance": from.distance_to(result.position), "point": result.position, "normal": result.normal, "collider": result.collider }
-	
-	return { "collision": false, "destination": Vector2.ZERO, "distance": 99999, "point": anchor, "normal": Vector2.ZERO, "collider": null }
 
 func _on_animation_finished() -> void:
 	animationFinished = true

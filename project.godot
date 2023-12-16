@@ -8,6 +8,40 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "CameraController",
+"language": "GDScript",
+"path": "res://Scripts/camera.gd"
+}, {
+"base": "Node2D",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://Scripts/entity.gd"
+}, {
+"base": "Node2D",
+"class": "Level",
+"language": "GDScript",
+"path": "res://Scripts/level.gd"
+}, {
+"base": "Entity",
+"class": "MovingPlatform",
+"language": "GDScript",
+"path": "res://Scripts/moving_platform.gd"
+}, {
+"base": "Entity",
+"class": "Player",
+"language": "GDScript",
+"path": "res://Scripts/player.gd"
+} ]
+_global_script_class_icons={
+"CameraController": "",
+"Entity": "",
+"Level": "",
+"MovingPlatform": "",
+"Player": ""
+}
+
 [application]
 
 config/name="Luiz 360 Engine"
@@ -16,6 +50,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+Global="*res://Scripts/global.gd"
 Audio="*res://Scripts/audio.gd"
 
 [display]

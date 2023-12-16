@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Levels/Test Level/Tiles/test_0.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Test Level/Tiles/test_1.tscn" type="PackedScene" id=2]
@@ -11,11 +11,15 @@
 [ext_resource path="res://Objects/layer_switcher.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scripts/camera.gd" type="Script" id=10]
 [ext_resource path="res://Levels/Test Level/Objects/moving_platform.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/level.gd" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 128, 16 )
 
-[node name="Test Level" type="Node"]
+[node name="Test Level" type="Node2D"]
+script = ExtResource( 12 )
+levelWidth = 1312
+levelHeight = 960
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 464, 675 )
@@ -173,14 +177,12 @@ groundedOnly = true
 [node name="MovingPlatform" parent="." instance=ExtResource( 11 )]
 position = Vector2( 384, 592 )
 
-[node name="Camera2D" type="Node2D" parent="."]
+[node name="CameraController" type="Node2D" parent="."]
 z_index = 4096
 script = ExtResource( 10 )
-maxX = 12512.0
-maxY = 2560.0
 marginL = -8.0
 marginR = 8.0
 marginB = 24.0
 
-[node name="(Real)Camera2D" type="Camera2D" parent="Camera2D"]
+[node name="Camera2D" type="Camera2D" parent="CameraController"]
 current = true

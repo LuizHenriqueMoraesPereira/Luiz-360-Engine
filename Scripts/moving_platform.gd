@@ -1,30 +1,32 @@
-extends Node2D
+class_name MovingPlatform extends Entity
 
-var xPosition : float
-var yPosition : float
 var xPrevious : float
 var yPrevious : float
 var xStart : float
 var yStart : float
-export var xSpeed : float
-export var ySpeed : float
 var xAngle : float
 var yAngle : float
-export var xDistance : float
-export var yDistance : float
 var sinkAmount : float
 
-var player : Node2D
-var camera : Node2D
+export var platformXSpeed : float
+export var platformYSpeed : float
+export var xDistance : float
+export var yDistance : float
+
+var player : Entity
+var camera : CameraController
 
 func _ready() -> void:
-	player = $"../Player"
-	camera = $"../Camera2D"
+	player = Global._find_node("Player")
+	camera = Global._find_node("CameraController")
 	
-	xPosition = global_position.x
-	yPosition = global_position.y
+	._ready()
+	
 	xStart = xPosition
 	yStart = yPosition
+	
+	xSpeed = platformXSpeed
+	ySpeed = platformYSpeed
 
 func _physics_process(delta : float) -> void:
 	var deltaFrame : float = 60 * delta

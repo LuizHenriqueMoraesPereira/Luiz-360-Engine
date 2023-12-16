@@ -24,9 +24,7 @@ func _physics_process(_delta : float) -> void:
 					i.layer = topLeft + (16 * topLeft)
 
 func _on_area_entered(area : Node2D) -> void:
-	if area.get_parent().is_in_group("Player"):
-		entities.append(area.get_parent())
+	entities.append(area.get_parent())
 
 func _on_area_exited(area : Node2D) -> void:
-	if area.get_parent().is_in_group("Player"):
-		entities.erase(area.get_parent())
+	entities.erase(area.get_parent())
