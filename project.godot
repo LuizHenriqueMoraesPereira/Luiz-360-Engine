@@ -33,13 +33,19 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://Scripts/player.gd"
+}, {
+"base": "Entity",
+"class": "Ring",
+"language": "GDScript",
+"path": "res://Objects/Ring/ring.gd"
 } ]
 _global_script_class_icons={
 "CameraController": "",
 "Entity": "",
 "Level": "",
 "MovingPlatform": "",
-"Player": ""
+"Player": "",
+"Ring": ""
 }
 
 [application]

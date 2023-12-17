@@ -1,6 +1,7 @@
 extends Node
 
 var currentLevel : Level = null
+var rings : int = 0
 
 func _ready() -> void:
 	var root = get_tree().root

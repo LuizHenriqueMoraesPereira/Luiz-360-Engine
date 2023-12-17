@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Levels/Test Level/Tiles/test_0.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Test Level/Tiles/test_1.tscn" type="PackedScene" id=2]
@@ -10,7 +10,10 @@
 [ext_resource path="res://Levels/Test Level/Sprites/test_6.png" type="Texture" id=8]
 [ext_resource path="res://Levels/Test Level/Sprites/test_5.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/camera.gd" type="Script" id=10]
+[ext_resource path="res://Objects/Ring/ring.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scripts/level.gd" type="Script" id=12]
+[ext_resource path="res://Sprites/GUI/hud_rings.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/GUI/hud_counter.tres" type="SpriteFrames" id=14]
 
 [node name="Test Level" type="Node2D"]
 script = ExtResource( 12 )
@@ -407,6 +410,20 @@ z_index = -10
 texture = ExtResource( 8 )
 centered = false
 
+[node name="Rings" type="Node" parent="."]
+
+[node name="Ring" parent="Rings" instance=ExtResource( 11 )]
+position = Vector2( 560, 784 )
+
+[node name="Ring2" parent="Rings" instance=ExtResource( 11 )]
+position = Vector2( 584, 784 )
+
+[node name="Ring3" parent="Rings" instance=ExtResource( 11 )]
+position = Vector2( 608, 784 )
+
+[node name="Ring4" parent="Rings" instance=ExtResource( 11 )]
+position = Vector2( 632, 784 )
+
 [node name="Test4" parent="." instance=ExtResource( 5 )]
 position = Vector2( 680, 672 )
 
@@ -419,3 +436,31 @@ marginB = 24.0
 
 [node name="Camera2D" type="Camera2D" parent="CameraController"]
 current = true
+
+[node name="HUD" type="Node2D" parent="CameraController"]
+
+[node name="Rings" type="Sprite" parent="CameraController/HUD"]
+position = Vector2( -196, -108 )
+texture = ExtResource( 13 )
+centered = false
+
+[node name="Counter" type="AnimatedSprite" parent="CameraController/HUD/Rings"]
+position = Vector2( 102, 14 )
+frames = ExtResource( 14 )
+speed_scale = 0.0
+centered = false
+offset = Vector2( -9, -14 )
+
+[node name="Counter2" type="AnimatedSprite" parent="CameraController/HUD/Rings/Counter"]
+position = Vector2( -8, 0 )
+frames = ExtResource( 14 )
+speed_scale = 0.0
+centered = false
+offset = Vector2( -9, -14 )
+
+[node name="Counter3" type="AnimatedSprite" parent="CameraController/HUD/Rings/Counter"]
+position = Vector2( -16, 0 )
+frames = ExtResource( 14 )
+speed_scale = 0.0
+centered = false
+offset = Vector2( -9, -14 )

@@ -1,5 +1,8 @@
 class_name CameraController extends Node2D
 
+onready var hud = $HUD
+var ringsCounter := []
+
 var cameraX : float
 var cameraY : float
 
@@ -32,6 +35,10 @@ var windowHalfHeight : int = 120
 var player : Entity
 
 func _ready() -> void:
+	ringsCounter.append(hud.find_node("Rings").get_child(0).get_child(1))
+	ringsCounter.append(hud.find_node("Rings").get_child(0).get_child(0))
+	ringsCounter.append(hud.find_node("Rings").get_child(0))
+	
 	maxX = Global.currentLevel.levelWidth
 	maxY = Global.currentLevel.levelHeight
 	
@@ -149,6 +156,13 @@ func _physics_process(delta : float) -> void:
 	call_deferred("_render")
 	
 	if player != null: groundOld = player.ground
+	
+	ringsCounter[0].visible = Global.rings >= 100
+	ringsCounter[1].visible = Global.rings >= 10
+	
+	ringsCounter[0].frame = Global.rings / 100 % 10
+	ringsCounter[1].frame = Global.rings / 10 % 10
+	ringsCounter[2].frame = Global.rings % 10
 
 func _render() -> void:
 	global_position.x = clamp(cameraX + finalShiftX, windowHalfWidth, Global.currentLevel.levelWidth - windowHalfWidth)

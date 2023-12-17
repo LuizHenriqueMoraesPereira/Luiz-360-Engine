@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Sprites/GUI/hud_counter.tres" type="SpriteFrames" id=1]
+
+[node name="Counter" type="AnimatedSprite"]
+frames = ExtResource( 1 )
+speed_scale = 0.0
+centered = false
+offset = Vector2( -9, -14 )
