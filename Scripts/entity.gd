@@ -134,14 +134,14 @@ func _movement_process(deltaTime : float) -> void:
 				var nx = 0
 				var ny = -1
 				
-				if angleRight.distance < angleLeft.distance:
-					nx = angleRight.normal.x
-					ny = angleRight.normal.y
-				else:
-					nx = angleLeft.normal.x
-					ny = angleLeft.normal.y
-				
-				if angleLeft.collision and angleRight.collision:
+				if angleLeft.collision != angleRight.collision:
+					if angleRight.distance < angleLeft.distance:
+						nx = angleRight.normal.x
+						ny = angleRight.normal.y
+					else:
+						nx = angleLeft.normal.x
+						ny = angleLeft.normal.y
+				elif angleLeft.collision and angleRight.collision:
 					ny = -(angleRight.point.x - angleLeft.point.x)
 					nx = angleRight.point.y - angleLeft.point.y
 				

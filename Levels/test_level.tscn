@@ -1,181 +1,414 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Levels/Test Level/Tiles/test_0.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Test Level/Tiles/test_1.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Levels/Test Level/Tiles/test_2.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/Test Level/Tiles/test_3.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Levels/Test Level/Tiles/test_4.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Levels/Test Level/Objects/test_4.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Objects/player.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Levels/Test Level/Tiles/test_5.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Levels/Test Level/Tiles/test_6.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Objects/layer_switcher.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Levels/Test Level/Sprites/test_7.png" type="Texture" id=7]
+[ext_resource path="res://Levels/Test Level/Sprites/test_6.png" type="Texture" id=8]
+[ext_resource path="res://Levels/Test Level/Sprites/test_5.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/camera.gd" type="Script" id=10]
-[ext_resource path="res://Levels/Test Level/Objects/moving_platform.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scripts/level.gd" type="Script" id=12]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 128, 16 )
 
 [node name="Test Level" type="Node2D"]
 script = ExtResource( 12 )
-levelWidth = 1312
-levelHeight = 960
+levelWidth = 1216
+levelHeight = 928
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
-position = Vector2( 464, 675 )
+position = Vector2( 288, 851 )
 z_index = 8
 
 [node name="Terrain" type="Node" parent="."]
 
-[node name="Test31" parent="Terrain" instance=ExtResource( 8 )]
-position = Vector2( 912, 624 )
-
 [node name="Test0" parent="Terrain" instance=ExtResource( 1 )]
-position = Vector2( 272, 688 )
+position = Vector2( 256, 864 )
 
 [node name="Test1" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 400, 688 )
+position = Vector2( 320, 800 )
 
-[node name="Test36" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 528, 688 )
+[node name="Test2" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 192, 864 )
 
-[node name="Test2" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 144, 720 )
+[node name="Test53" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 864 )
 
-[node name="Test7" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 144, 816 )
+[node name="Test54" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 864 )
 
-[node name="Test8" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 16, 816 )
+[node name="Test50" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 864 )
 
-[node name="Test19" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 16, 688 )
+[node name="Test51" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 800 )
 
-[node name="Test20" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 16, 560 )
+[node name="Test52" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 736 )
 
-[node name="Test21" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 48, 464 )
+[node name="Test55" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 672 )
 
-[node name="Test22" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 16, 464 )
+[node name="Test56" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 608 )
 
-[node name="Test9" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 400, 816 )
+[node name="Test57" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 544 )
 
-[node name="Test10" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 272, 816 )
+[node name="Test104" parent="Terrain" instance=ExtResource( 4 )]
+position = Vector2( 192, 288 )
 
-[node name="Test11" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 656, 816 )
+[node name="Test58" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 480 )
 
-[node name="Test12" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 528, 816 )
+[node name="Test59" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 416 )
 
-[node name="Test32" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 528, 720 )
-collision_layer = 2
+[node name="Test3" parent="Terrain" instance=ExtResource( 3 )]
+position = Vector2( 1024, 672 )
 
-[node name="Test3" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 144, 592 )
+[node name="Test34" parent="Terrain" instance=ExtResource( 3 )]
+position = Vector2( 1024, 288 )
+rotation = -1.5708
 
-[node name="Test6" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 528, 592 )
-z_index = 16
-collision_layer = 2
+[node name="Test45" parent="Terrain" instance=ExtResource( 3 )]
+position = Vector2( 448, 288 )
+rotation = 3.14159
 
-[node name="Test33" parent="Terrain" instance=ExtResource( 4 )]
-position = Vector2( 528, 592 )
-scale = Vector2( 1, -1 )
-z_index = 16
-collision_layer = 2
+[node name="Test48" parent="Terrain" instance=ExtResource( 3 )]
+position = Vector2( 192, 544 )
+rotation = 3.14159
 
-[node name="Test4" parent="Terrain" instance=ExtResource( 5 )]
-position = Vector2( 1040, 624 )
+[node name="Test49" parent="Terrain" instance=ExtResource( 3 )]
+position = Vector2( 192, 736 )
+rotation = 1.5708
 
-[node name="Test34" parent="Terrain" instance=ExtResource( 5 )]
-position = Vector2( 656, 592 )
-z_index = -16
+[node name="Test4" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 576, 800 )
 
-[node name="Test35" parent="Terrain" instance=ExtResource( 5 )]
-position = Vector2( 656, 592 )
-scale = Vector2( 1, -1 )
-z_index = -16
+[node name="Test5" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 640, 800 )
 
-[node name="Test5" parent="Terrain" instance=ExtResource( 7 )]
-position = Vector2( 656, 688 )
-collision_layer = 2
+[node name="Test6" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 704, 800 )
 
-[node name="Test13" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 912, 816 )
+[node name="Test7" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 768, 800 )
 
-[node name="Test17" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1040, 752 )
+[node name="Test8" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 832, 800 )
 
-[node name="Test18" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1040, 816 )
+[node name="Test9" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 896, 800 )
 
-[node name="Test23" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1168, 816 )
+[node name="Test10" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 960, 800 )
 
-[node name="Test24" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1168, 688 )
+[node name="Test11" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 576, 864 )
 
-[node name="Test25" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1168, 560 )
+[node name="Test12" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 640, 864 )
 
-[node name="Test26" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1136, 496 )
+[node name="Test13" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 704, 864 )
 
-[node name="Test27" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1168, 432 )
+[node name="Test14" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 768, 864 )
 
-[node name="Test28" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1136, 368 )
+[node name="Test15" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 832, 864 )
 
-[node name="Test29" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1136, 304 )
+[node name="Test16" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 896, 864 )
 
-[node name="Test30" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 1168, 304 )
+[node name="Test17" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 960, 864 )
 
-[node name="Test14" parent="Terrain" instance=ExtResource( 3 )]
-position = Vector2( 784, 816 )
+[node name="Test18" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1024, 800 )
 
-[node name="Test15" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 784, 720 )
-collision_layer = 3
+[node name="Test19" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1088, 800 )
 
-[node name="Test16" parent="Terrain" instance=ExtResource( 2 )]
-position = Vector2( 912, 720 )
+[node name="Test20" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 800 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Terrain"]
-collision_layer = 3
-collision_mask = 0
+[node name="Test24" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 736 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/StaticBody2D"]
-position = Vector2( 656, 480 )
-shape = SubResource( 1 )
+[node name="Test25" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 672 )
 
-[node name="Layer Switcher2" parent="." instance=ExtResource( 9 )]
-position = Vector2( 832, 464 )
-scale = Vector2( 3, 16 )
-topLeft = 1
-topRight = 1
-bottomLeft = 2
-bottomRight = 1
+[node name="Test21" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1024, 864 )
 
-[node name="Layer Switcher3" parent="." instance=ExtResource( 9 )]
-position = Vector2( 656, 560 )
-scale = Vector2( 4, 4 )
-topLeft = 2
-topRight = 1
-bottomLeft = 2
-bottomRight = 1
-groundedOnly = true
+[node name="Test22" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1088, 864 )
 
-[node name="MovingPlatform" parent="." instance=ExtResource( 11 )]
-position = Vector2( 384, 592 )
+[node name="Test23" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 864 )
+
+[node name="Test26" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 544 )
+
+[node name="Test27" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 480 )
+
+[node name="Test28" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 416 )
+
+[node name="Test29" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 608 )
+
+[node name="Test30" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 288 )
+
+[node name="Test31" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 224 )
+
+[node name="Test32" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 160 )
+
+[node name="Test35" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 96 )
+
+[node name="Test61" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 32 )
+
+[node name="Test36" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 960, 96 )
+
+[node name="Test37" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1024, 96 )
+
+[node name="Test38" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1088, 96 )
+
+[node name="Test39" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 768, 96 )
+
+[node name="Test40" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 832, 96 )
+
+[node name="Test41" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 896, 96 )
+
+[node name="Test42" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 576, 96 )
+
+[node name="Test43" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 640, 96 )
+
+[node name="Test46" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 448, 96 )
+
+[node name="Test47" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 512, 96 )
+
+[node name="Test44" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 704, 96 )
+
+[node name="Test63" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 960, 32 )
+
+[node name="Test64" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1024, 32 )
+
+[node name="Test65" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1088, 32 )
+
+[node name="Test66" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 768, 32 )
+
+[node name="Test67" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 832, 32 )
+
+[node name="Test68" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 896, 32 )
+
+[node name="Test69" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 576, 32 )
+
+[node name="Test70" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 640, 32 )
+
+[node name="Test71" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 448, 32 )
+
+[node name="Test72" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 512, 32 )
+
+[node name="Test74" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 320, 96 )
+
+[node name="Test75" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 384, 96 )
+
+[node name="Test76" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 192, 96 )
+
+[node name="Test77" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 256, 96 )
+
+[node name="Test78" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 320, 32 )
+
+[node name="Test79" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 384, 32 )
+
+[node name="Test80" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 192, 32 )
+
+[node name="Test81" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 256, 32 )
+
+[node name="Test82" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 256, 224 )
+
+[node name="Test83" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 224 )
+
+[node name="Test84" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 192, 224 )
+
+[node name="Test85" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 256, 160 )
+
+[node name="Test86" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 160 )
+
+[node name="Test88" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 352 )
+
+[node name="Test89" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 288 )
+
+[node name="Test90" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 224 )
+
+[node name="Test91" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 160 )
+
+[node name="Test92" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 352 )
+
+[node name="Test93" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 288 )
+
+[node name="Test98" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 96 )
+
+[node name="Test94" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 224 )
+
+[node name="Test95" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 160 )
+
+[node name="Test96" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 352 )
+
+[node name="Test97" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 288 )
+
+[node name="Test99" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 96 )
+
+[node name="Test100" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 96 )
+
+[node name="Test101" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 64, 32 )
+
+[node name="Test102" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 128, 32 )
+
+[node name="Test103" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 0, 32 )
+
+[node name="Test87" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 192, 160 )
+
+[node name="Test73" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 704, 32 )
+
+[node name="Test33" parent="Terrain" instance=ExtResource( 1 )]
+position = Vector2( 1152, 352 )
+
+[node name="Decoration" type="Node" parent="."]
+
+[node name="Test7" type="Sprite" parent="Decoration"]
+position = Vector2( 224, 880 )
+z_index = -5
+texture = ExtResource( 7 )
+
+[node name="Test8" type="Sprite" parent="Decoration"]
+position = Vector2( 352, 808 )
+z_index = -5
+texture = ExtResource( 7 )
+
+[node name="Test9" type="Sprite" parent="Decoration"]
+position = Vector2( 528, 768 )
+z_index = -15
+texture = ExtResource( 7 )
+
+[node name="Test6" type="Sprite" parent="Decoration"]
+position = Vector2( 1040, 304 )
+z_index = -10
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Test11" type="Sprite" parent="Decoration"]
+position = Vector2( 1056, 56 )
+z_index = -10
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Test10" type="Sprite" parent="Decoration"]
+position = Vector2( 1048, 552 )
+z_index = -10
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Test12" type="Sprite" parent="Decoration"]
+position = Vector2( 696, 552 )
+z_index = -10
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Test15" type="Sprite" parent="Decoration"]
+position = Vector2( 560, 128 )
+z_index = -5
+texture = ExtResource( 9 )
+centered = false
+
+[node name="Test16" type="Sprite" parent="Decoration"]
+position = Vector2( 552, 376 )
+z_index = -5
+texture = ExtResource( 9 )
+centered = false
+
+[node name="Test17" type="Sprite" parent="Decoration"]
+position = Vector2( 560, 624 )
+z_index = -5
+texture = ExtResource( 9 )
+centered = false
+
+[node name="Test13" type="Sprite" parent="Decoration"]
+position = Vector2( 688, 304 )
+z_index = -10
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Test14" type="Sprite" parent="Decoration"]
+position = Vector2( 696, 56 )
+z_index = -10
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Test4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 680, 672 )
 
 [node name="CameraController" type="Node2D" parent="."]
 z_index = 4096

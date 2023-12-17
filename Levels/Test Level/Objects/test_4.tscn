@@ -1,19 +1,19 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Levels/Test Level/Sprites/test_6.png" type="Texture" id=1]
+[ext_resource path="res://Levels/Test Level/Sprites/test_4.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/moving_platform.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 8 )
 
-[node name="MovingPlatform" type="StaticBody2D" groups=["Platform"]]
+[node name="Test4" type="StaticBody2D" groups=["Platform"]]
 collision_layer = 240
 collision_mask = 0
 script = ExtResource( 2 )
-platformXSpeed = 1.0
-xDistance = 64.0
+platformYSpeed = 1.0
+yDistance = 32.0
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite" parent="."]
 position = Vector2( 0, 16 )
 texture = ExtResource( 1 )
 

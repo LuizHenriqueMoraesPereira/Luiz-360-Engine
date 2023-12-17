@@ -5,9 +5,9 @@
 [node name="Test3" type="StaticBody2D"]
 collision_mask = 0
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 centered = false
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 0, 0, 32, 0, 32, 16, 36, 32, 42, 48, 48, 57, 54, 64, 64, 74, 71, 80, 80, 86, 96, 92, 112, 96, 128, 96, 128, 128, 0, 128 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, 0, 128, 0, 127, 16, 124, 30, 119, 46, 111, 62, 100, 79, 96, 83, 80, 99, 64, 110, 48, 118, 32, 124, 16, 127, 0, 128 )

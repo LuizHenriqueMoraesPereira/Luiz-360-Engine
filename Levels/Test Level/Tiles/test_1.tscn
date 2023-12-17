@@ -1,17 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://Levels/Test Level/Sprites/test_1.png" type="Texture" id=1]
-
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 64, 64 )
 
 [node name="Test1" type="StaticBody2D"]
 collision_mask = 0
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 64, 64 )
-shape = SubResource( 1 )
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, 64, 16, 63, 32, 61, 48, 59, 64, 56, 80, 52, 92, 48, 96, 46, 112, 40, 128, 32, 144, 24, 160, 17, 165, 16, 176, 12, 192, 8, 208, 4, 224, 2, 240, 0, 256, 0, 256, 128, 0, 128 )

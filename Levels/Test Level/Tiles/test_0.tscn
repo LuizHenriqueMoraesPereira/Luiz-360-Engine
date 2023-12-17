@@ -3,15 +3,15 @@
 [ext_resource path="res://Levels/Test Level/Sprites/test_0.png" type="Texture" id=1]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 64, 64 )
+extents = Vector2( 32, 32 )
 
 [node name="Test0" type="StaticBody2D"]
 collision_mask = 0
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="Sprite2D" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 64, 64 )
+position = Vector2( 32, 32 )
 shape = SubResource( 1 )

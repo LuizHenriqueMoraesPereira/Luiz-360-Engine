@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Sonic/sonic.tres" type="SpriteFrames" id=2]
@@ -8,6 +8,15 @@
 [ext_resource path="res://Sounds/Charge.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sounds/Roll.wav" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/DropDash.wav" type="AudioStream" id=8]
+[ext_resource path="res://Shaders/PaletteSwap.gdshader" type="Shader" id=9]
+[ext_resource path="res://Sprites/Sonic/sonic_palette.png" type="Texture" id=10]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 9 )
+shader_param/skip_first_row = true
+shader_param/use_palette_alpha = false
+shader_param/fps = 0.0
+shader_param/palette = ExtResource( 10 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13, 17 )
@@ -25,6 +34,7 @@ sfxRoll = ExtResource( 7 )
 sfxDropDash = ExtResource( 8 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
+material = SubResource( 2 )
 frames = ExtResource( 2 )
 animation = "idle"
 centered = false
