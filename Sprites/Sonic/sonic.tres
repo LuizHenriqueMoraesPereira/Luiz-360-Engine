@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=109 format=2]
+[gd_resource type="SpriteFrames" load_steps=120 format=2]
 
 [ext_resource path="res://Sprites/Sonic/sonic_idle.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Sonic/sonic_walk.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Sprites/Sonic/sonic_crouch_down.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Sonic/sonic_skid.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/Sonic/sonic_spindash.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Sonic/sonic_drop_dash.png" type="Texture" id=12]
 
 [sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 6 )
@@ -115,6 +116,46 @@ region = Rect2( 147, 0, 48, 48 )
 [sub_resource type="AtlasTexture" id=36]
 atlas = ExtResource( 5 )
 region = Rect2( 196, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=110]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=111]
+atlas = ExtResource( 12 )
+region = Rect2( 49, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=112]
+atlas = ExtResource( 12 )
+region = Rect2( 98, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=113]
+atlas = ExtResource( 12 )
+region = Rect2( 147, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=114]
+atlas = ExtResource( 12 )
+region = Rect2( 196, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=115]
+atlas = ExtResource( 12 )
+region = Rect2( 245, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=116]
+atlas = ExtResource( 12 )
+region = Rect2( 294, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=117]
+atlas = ExtResource( 12 )
+region = Rect2( 343, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=118]
+atlas = ExtResource( 12 )
+region = Rect2( 392, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=119]
+atlas = ExtResource( 12 )
+region = Rect2( 441, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -425,6 +466,11 @@ animations = [ {
 "frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
 "loop": true,
 "name": "dash_loop",
+"speed": 24.0
+}, {
+"frames": [ SubResource( 110 ), SubResource( 111 ), SubResource( 112 ), SubResource( 113 ), SubResource( 110 ), SubResource( 114 ), SubResource( 112 ), SubResource( 115 ), SubResource( 110 ), SubResource( 116 ), SubResource( 112 ), SubResource( 117 ), SubResource( 110 ), SubResource( 118 ), SubResource( 112 ), SubResource( 119 ) ],
+"loop": true,
+"name": "drop_dash",
 "speed": 24.0
 }, {
 "frames": [ SubResource( 1 ) ],

@@ -141,10 +141,15 @@ func _physics_process(delta : float) -> void:
 		cameraY = max(cameraY - (2 * deltaTime), maxY - windowHalfHeight)
 	
 	lagTimer = max(lagTimer - deltaTime, 0)
+	if shakeTimer > 0:
+		cameraX += rand_range(0, shakeTimer) - rand_range(0, shakeTimer)
+		cameraY += rand_range(0, shakeTimer) - rand_range(0, shakeTimer)
+		shakeTimer = max(shakeTimer - deltaTime, 0)
+	
 	call_deferred("_render")
 	
 	if player != null: groundOld = player.ground
 
 func _render() -> void:
-	global_position.x = cameraX + finalShiftX
-	global_position.y = cameraY + finalShiftY
+	global_position.x = clamp(cameraX + finalShiftX, windowHalfWidth, Global.currentLevel.levelWidth - windowHalfWidth)
+	global_position.y = clamp(cameraY + finalShiftY, windowHalfHeight, Global.currentLevel.levelHeight - windowHalfHeight)

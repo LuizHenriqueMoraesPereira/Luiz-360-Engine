@@ -109,10 +109,8 @@ func _movement_process(deltaTime : float) -> void:
 					groundAngle = fmod(720 - rad2deg(atan2(normal.x, -normal.y)), 360)
 					groundSpeed = xSpeed
 					if abs(xSpeed) <= abs(ySpeed):
-						if groundAngle >= 22.5 and groundAngle < 45 or groundAngle > 315 and groundAngle <= 337.5:
-							groundSpeed = ySpeed * 0.5 * -sign(sin(deg2rad(groundAngle)))
-						elif groundAngle >= 45 and groundAngle <= 315:
-							groundSpeed = ySpeed * -sign(sin(deg2rad(groundAngle)))
+						if groundAngle >= 22.5 and groundAngle <= 337.5:
+							groundSpeed = ySpeed * 0.84 * -sign(sin(deg2rad(groundAngle)))
 					ground = true
 				else:
 					if ySpeed < -1 and normal.y < 0.9:
@@ -172,7 +170,7 @@ func _sensor(anchor : Vector2, direction : Vector2, extension : float = 0) -> Di
 	anchor.y += yPosition
 	
 	var result = space.intersect_ray(from, to, [self], layer)
-	if result and (result.collider.collision_layer < 16 or result.collider.is_in_group("Solid") or result.collider.is_in_group("Platform") and (not ground and ySpeed >= 0 or ground) and direction.y > 0 and result.collider.global_position.y >= yPosition + (heightRadius / 2)):
+	if result and (result.collider.collision_layer < 16 or result.collider.is_in_group("Solid") or result.collider.is_in_group("Platform") and (not ground and ySpeed >= 0 or ground) and direction.y > 0 and result.collider.global_position.y >= yPosition + (heightRadius - max(4, ySpeed))):
 		return { "collision": true, "destination": result.position - anchor, "distance": from.distance_to(result.position), "point": result.position, "normal": result.normal, "collider": result.collider }
 	
 	return { "collision": false, "destination": Vector2.ZERO, "distance": 99999, "point": anchor, "normal": Vector2.ZERO, "collider": null }

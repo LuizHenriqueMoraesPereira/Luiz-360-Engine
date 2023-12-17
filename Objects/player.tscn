@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/player.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Sonic/sonic.tres" type="SpriteFrames" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sounds/Release.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sounds/Charge.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sounds/Roll.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sounds/DropDash.wav" type="AudioStream" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 13, 17 )
@@ -21,6 +22,7 @@ sfxSkid = ExtResource( 4 )
 sfxCharge = ExtResource( 6 )
 sfxRelease = ExtResource( 5 )
 sfxRoll = ExtResource( 7 )
+sfxDropDash = ExtResource( 8 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 2 )

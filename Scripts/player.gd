@@ -10,6 +10,7 @@ var controlLock : float
 var direction : int
 var action : int
 var jumpVariable : bool
+var dropDash : float
 var skidding : float
 var spindash : float
 
@@ -35,6 +36,7 @@ export var sfxSkid : AudioStream
 export var sfxCharge : AudioStream
 export var sfxRelease : AudioStream
 export var sfxRoll : AudioStream
+export var sfxDropDash : AudioStream
 
 func _ready() -> void:
 	camera = Global._find_node("CameraController")
@@ -177,6 +179,7 @@ func _physics_process(delta : float) -> void:
 				ground = false
 				controlLock = 0
 				jumpVariable = true
+				dropDash = 0
 				action = 1
 			
 			if ground and inputHorizontal == 0 and inputVertical > 0 and abs(groundSpeed) >= 0.5:
@@ -185,8 +188,26 @@ func _physics_process(delta : float) -> void:
 				allowInput = false
 				action = 6
 		1:
-			_play_animation("jump")
+			if dropDash < 16:
+				_play_animation("jump")
+			else:
+				_play_animation("drop_dash")
 			skin.speed_scale = 1 + (abs(groundSpeed) / 8)
+			
+			if jumpVariable:
+				if dropDash != -32767:
+					if dropDash <= 0:
+						if Input.is_action_just_pressed("Jump"):
+							allowInput = true
+							dropDash = 1
+					elif Input.is_action_pressed("Jump") and dropDash < 15:
+						dropDash = min(dropDash + deltaTime, 15)
+						if dropDash >= 15:
+							Audio._play_sample(sfxDropDash)
+							dropDash = 16
+					
+					if Input.is_action_just_released("Jump") and dropDash > 0:
+						dropDash = -32767
 			
 			if jumpVariable and ySpeed < jumpReleaseForce and not Input.is_action_pressed("Jump"):
 				ySpeed = jumpReleaseForce
@@ -194,7 +215,18 @@ func _physics_process(delta : float) -> void:
 			if ground:
 				allowInput = true
 				allowDirection = true
-				action = 0
+				
+				if dropDash == 16:
+					Audio._play_sample(sfxRelease)
+					camera.lagTimer = 16
+					camera.shakeTimer = 16
+					groundSpeed = 9 * direction
+					allowDirection = false
+					allowInput = false
+					dropDash = 0
+					action = 6
+				else:
+					action = 0
 		2:
 			if inputVertical < 0:
 				if animation != "look_up":
@@ -266,6 +298,7 @@ func _physics_process(delta : float) -> void:
 				skidding = 0
 				allowDirection = true
 				jumpVariable = true
+				dropDash = 0
 				action = 1
 		5:
 			_play_animation("spindash")
@@ -332,6 +365,7 @@ func _physics_process(delta : float) -> void:
 				allowInput = true
 				allowDirection = true
 				jumpVariable = true
+				dropDash = 0
 				action = 1
 			
 			if ground and abs(groundSpeed) < rollDeceleration:
